@@ -1,4 +1,4 @@
-package main
+package gcp_cloudsql_slowquery_dump
 
 import (
 	"context"
@@ -12,10 +12,6 @@ import (
 	"github.com/percona/go-mysql/log"
 	parser "github.com/percona/go-mysql/log/slow"
 	"golang.org/x/sync/errgroup"
-)
-
-const (
-	exitFail = 1
 )
 
 func newRawSlowQueryReader(ctx context.Context, client *storage.Client, bucket string, name string) (*storage.Reader, error) {
@@ -125,16 +121,4 @@ func DumpSlowQuery(ctx context.Context, e GCSEvent) error {
 	}
 
 	return nil
-}
-
-func run(args []string, stdout io.Writer) error {
-	ctx := context.Background()
-	return DumpSlowQuery(ctx, GCSEvent{Bucket: args[1], Name: args[2]})
-}
-
-func main() {
-	if err := run(os.Args, os.Stdout); err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
-		os.Exit(exitFail)
-	}
 }

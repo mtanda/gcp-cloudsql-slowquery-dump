@@ -1,4 +1,4 @@
-package main
+package gcp_cloudsql_slowquery_dump
 
 import (
 	"io"
