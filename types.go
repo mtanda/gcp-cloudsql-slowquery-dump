@@ -4,6 +4,11 @@ import (
 	"io"
 )
 
+// PubSub trigger event
+type PubSubMessage struct {
+	Data []byte `json:"data"`
+}
+
 // GCS trigger event
 type GCSEvent struct {
 	Bucket string `json:"bucket"`

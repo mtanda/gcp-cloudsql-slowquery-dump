@@ -51,7 +51,13 @@ func extractTextPayloadChan(src *storage.Reader, ch chan SlowQuerySource) {
 	}()
 }
 
-func DumpSlowQuery(ctx context.Context, e GCSEvent) error {
+func DumpSlowQuery(ctx context.Context, m PubSubMessage) error {
+	var e GCSEvent
+	err := json.Unmarshal(m.Data, &e)
+	if err != nil {
+		return err
+	}
+
 	srcBucket := e.Bucket
 	srcObject := e.Name
 	dstBucket := os.Getenv("DST_BUCKET")
